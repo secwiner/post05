@@ -1,4 +1,4 @@
-package xxx
+package post
 
 import (
 	"database/sql"
