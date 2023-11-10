@@ -30,7 +30,7 @@ var (
 )
 
 func openConnection() (*sql.DB, error) {
-    conn := fmt.Sprintf("host=%s port=%d user+%s password=%s dbname=%s sslmode=disable", Hostname, Port, Username, Password, Database)
+    conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Hostname, Port, Username, Password, Database)
     db, err := sql.Open("postgres", conn)
     if err != nil {
         return nil, err
