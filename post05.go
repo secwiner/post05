@@ -17,7 +17,7 @@ type Userdata struct {
     ID int
     Username string
     Name string
-    Surname stirng
+    Surname string
     Description string
 }
 
@@ -58,14 +58,14 @@ func exists(username string) int {
             fmt.Println("Scan", err)
             return -1
         }
-        userID - id
+        userID = id
     }
     defer rows.Close()
     return userID
 }
 
 func AddUser (d Userdata) int {
-    a.Username = strings.ToLower(d.Username)
+    d.Username = strings.ToLower(d.Username)
     db, err := openConnection()
     if err != nil {
         fmt.Println(err)
@@ -81,7 +81,7 @@ func AddUser (d Userdata) int {
     insertStatement := `insert intor "users" ("username") values ($1)`
     _, err = db.Exec(insertStatement, d.Username)
     if err != nil {
-        fmt.Println(er)
+        fmt.Println(err)
         return -1
     }
 
@@ -91,7 +91,7 @@ func AddUser (d Userdata) int {
     }
 
     insertStatement = `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
-    _, err = db.Exec(insertStatement, userID, d.Name, d.Surnamej, d.Description)
+    _, err = db.Exec(insertStatement, userID, d.Name, d.Surname, d.Description)
     if err != nil {
         fmt.Println("db.Exec()", err)
         return -1
@@ -127,7 +127,7 @@ func DeleteUser(id int) error {
         return err
     }
 
-    deleteStatement := `delete from "users" where id=$1`
+    deleteStatement = `delete from "users" where id=$1`
     _, err = db.Exec(deleteStatement, id)
     if err != nil {
         return err
@@ -153,7 +153,6 @@ func ListUsers() ([]Userdata, error) {
         var username string
         var name string
         var surname string
-        var surname string
         var description string
         err = rows.Scan(&id, &username, &name, &surname, &description)
         temp := Userdata{ID: id, Username: username, Name: name, Surname: surname, Description: description}
@@ -161,9 +160,9 @@ func ListUsers() ([]Userdata, error) {
         if err != nil {
             return Data, err
         }
-        defer rows.Close()
-        return Data, nil
     }
+    defer rows.Close()
+    return Data, nil
 }
 
 func UpdateUser(d Userdata) error {
@@ -180,7 +179,7 @@ func UpdateUser(d Userdata) error {
 
     d.ID  = userID
     updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description"=$3 where "userid"=$4`
-    _, err = db.Exce(updateStatement, d.Name, d.Surname, d.Description, d.ID)
+    _, err = db.Exec(updateStatement, d.Name, d.Surname, d.Description, d.ID)
     if err != nil {
         return err
     }
